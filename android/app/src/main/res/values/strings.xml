@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Cognified</string>
+    <string name="title_activity_main">Cognified</string>
+    <string name="package_name">com.pizzalover125.cognified</string>
+    <string name="custom_url_scheme">com.pizzalover125.cognified</string>
+</resources>

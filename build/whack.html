@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attention</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <style>
+    body {
+      text-align: center;
+    }
+
+    textarea {
+      font-size: 5.5vh;
+      border: none; 
+      resize: none;
+      overflow: hidden;
+    }
+
+    textarea:focus {
+      outline: none;
+    }
+
+    input {
+        box-shadow: inset #FEB326 0 0 0 2px;
+        border: 0;
+        font-family: "Poppins", sans-serif;
+        background: rgba(0, 0, 0, 0);
+        appearance: none;
+        width: 50vh;
+        position: relative;
+        border-radius: 3px;
+        padding: 9px 12px;
+        line-height: 1.4;
+        color: #FEB326;
+        font-size: 13px;
+        font-weight: 400;
+        height: 15px;
+        transition: all .2s ease;
+        display: block;
+        margin-right: auto;
+        margin-left: auto;
+        :hover{
+            box-shadow: 0 0 0 0 #fff inset, #FEB326 0 0 0 2px;
+        }
+        :focus{
+            background: #fff;
+            outline: 0;
+            box-shadow: 0 0 0 0 #fff inset, #FEB326 0 0 0 3px;
+        }   
+      }
+
+      p, label {
+        font-size: 1.75vh;
+        font-family: "Poppins", sans-serif;
+        font-weight: 900;
+        font-style: normal;
+        text-align: center;
+      }
+
+      button {
+          display: inline-block;
+          outline: 0;
+          border: 0;
+          cursor: pointer;
+          background-color: white;
+          border-radius: 4px;
+          padding: 8px 16px;
+          font-size: 16px;
+          font-weight: 600;
+          color: #FEB326;
+          border: 1px solid #FEB326;
+          line-height: 26px;
+        }
+  </style>
+</head>
+<body>
+  <textarea id="grid" cols="21" rows="11" readonly></textarea><br>
+  <label>Row:</label><input type="number" min="1" max="10" id="x">
+  <label>Column:</label><input type="number" min="1" max="10" id="y">
+  <p id="score">Score: 0</p>
+  <a href="menu.html"><button id="back">Back</button></a>
+</body>
+<script>
+  let x;
+  let y;
+  let score = 0;
+
+  function createEmojiGrid(textAreaId, emojiFrown = "☹️", emojiSmile = "🙂") {
+    const textArea = document.getElementById(textAreaId);
+    let grid = "";
+    x = Math.floor(Math.random() * 10);
+    y = Math.floor(Math.random() * 10);
+    console.log(`${x}, ${y}`)
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        if (j == x && i == y) {
+          grid += emojiSmile;
+        } else {
+          grid += emojiFrown;
+        }
+      }
+      grid += "\n"; 
+    }
+    textArea.value = grid;
+  }
+
+  createEmojiGrid("grid");
+
+  $("input").keyup(function(){
+      if ($("#y").val() == x+1 && $("#x").val() == y+1) {
+        createEmojiGrid("grid");
+        $("#x").val("");
+        $("#y").val("");
+        score += 1;
+        $("#score").text(`Score: ${score}`)
+      }
+  });
+</script>
+</html>

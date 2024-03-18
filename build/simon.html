@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">  
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        .container {
+            margin: 20px auto;
+            max-width: 100%;
+            max-height: 100%;
+            display: grid;
+            grid-template-columns: auto auto;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .box {
+            display: block;
+            padding: 4vh;
+            border-radius: 10px;
+            border: none;
+            width: 35vw;
+            height: 35vw;
+        }
+
+        @media screen and (min-width: 480px) {
+            .box {
+                width: 35vh;
+                height: 35vh;
+            }
+        }
+
+        .box:active {
+            box-shadow: none;
+            transform: translateY(5px);
+        }
+
+        .red {
+            background-color: firebrick;
+            border-radius: 50%;
+        }
+
+        .blue {
+            background-color: royalblue;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+        }
+
+        .green {
+            background-color: mediumseagreen;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+        }
+
+        .orange {
+            background-color: orange;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .light {
+            filter: brightness(150%);
+        }
+
+        #rb {
+            color: white;
+            font-size: 6vh;
+            font-family: "Poppins", sans-serif;
+            font-weight: 900;
+            font-style: normal;
+        }
+
+        #back {
+            display: inline-block;
+            outline: 0;
+            border: 0;
+            cursor: pointer;
+            background-color: white;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #64C5EB;
+            border: 1px solid #64C5EB;
+            line-height: 26px;
+        }
+
+        #center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <button class="red box" id="rb"></button>
+        <button class="blue box" id="bb"></button>
+        <button class="green box" id="gb"></button>
+        <button class="orange box" id="ob"></button>
+    </div>
+    <div id="center">        
+        <a href="menu.html"><button id="back">Back</button></a>
+    </div>
+
+    <script>
+        let score = 0;
+        let userPattern = [];
+        let gamePattern = [];
+        let level = 0;
+        let gameStarted = false;
+
+        const colors = ["R", "B", "G", "O"];
+
+        function createPattern() {
+            const randomColor = colors[Math.floor(Math.random() * 4)];
+            gamePattern.push(randomColor);
+        }
+
+        function playPattern() {
+            let i = 0;
+            const highlightInterval = setInterval(function () {
+                if (i < gamePattern.length) {
+                    highlight(gamePattern[i]);
+                    i++;
+                } else {
+                    clearInterval(highlightInterval);
+                }
+            }, 1000);
+        }
+
+        function highlight(color) {
+            const audio = new Audio('ding.mp3');
+            if (color === "R") {
+                $("#rb").addClass("light");
+                audio.play();
+                setTimeout(function () {
+                    $("#rb").removeClass("light");
+                }, 500);
+            } else if (color === "G") {
+                $("#gb").addClass("light");
+                audio.play();
+                setTimeout(function () {
+                    $("#gb").removeClass("light");
+                }, 500);
+            } else if (color === "O") {
+                $("#ob").addClass("light");
+                audio.play();
+                setTimeout(function () {
+                    $("#ob").removeClass("light");
+                }, 500);
+            } else if (color === "B") {
+                $("#bb").addClass("light");
+                audio.play();
+                setTimeout(function () {
+                    $("#bb").removeClass("light");
+                }, 500);
+            }
+        }
+
+        function checkPattern() {
+            for (let i = 0; i < userPattern.length; i++) {
+                if (userPattern[i] !== gamePattern[i]) {
+                    alert("Wrong pattern! Try again.");
+                    location.reload();
+                }
+            }
+
+            if (userPattern.length === gamePattern.length) {
+                score++;
+                $("#score").text("Score: " + score);
+                userPattern = [];
+                setTimeout(function () {
+                    playRound();
+                }, 1000);
+            }
+        }
+
+        function startGame() {
+            score = 0;
+            userPattern = [];
+            gamePattern = [];
+            level = 0;
+            gameStarted = false;
+            $("#score").text("Score: 0");
+        }
+
+        function playRound() {
+            createPattern();
+            level++;
+            $("#rb").text(`Score: ${score}`);
+            playPattern();
+        }
+
+        $("#rb").on("click", function () {
+            if (gameStarted) {
+                userPattern.push("R");
+                highlight("R");
+                checkPattern();
+            }
+        });
+
+        $("#gb").on("click", function () {
+            if (gameStarted) {
+                userPattern.push("G");
+                highlight("G");
+                checkPattern();
+            }
+        });
+
+        $("#bb").on("click", function () {
+            if (gameStarted) {
+                userPattern.push("B");
+                highlight("B");
+                checkPattern();
+            }
+        });
+
+        $("#ob").on("click", function () {
+            if (gameStarted) {
+                userPattern.push("O");
+                highlight("O");
+                checkPattern();
+            }
+        });
+
+        $("#rb").text("Start");
+        $("#rb").on("click", function () {
+            if (!gameStarted) {
+                startGame();
+                $("#rb").text("");
+                gameStarted = true;
+                setTimeout(playRound, 100);
+            }
+        });
+
+    </script>
+</body>
+
+</html>

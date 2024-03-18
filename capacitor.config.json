@@ -1,0 +1,8 @@
+{
+  "appId": "com.pizzalover125.cognified",
+  "appName": "Cognified",
+  "webDir": "build",
+  "server": {
+    "androidScheme": "https"
+  }
+}
