@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.pizzalover125.cognified"
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    namespace "com.cognified.app"
+    compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.pizzalover125.cognified"
+        applicationId "com.cognified.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

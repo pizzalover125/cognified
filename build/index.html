@@ -21,7 +21,6 @@
             width: 100%;
             height: 50px; 
             border: none;
-            font-size: 12vh;
             font-family: "Poppins", sans-serif;
             font-weight: 300;
             text-align: center;
@@ -57,11 +56,33 @@
             width: 100%;
             border: none;
         }
+
+        @media only screen and (min-width: 768px) {
+            img {
+                height: 12vh;
+                vertical-align: middle;
+            }
+
+            #hero {
+                font-size: 12vh;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            img {
+                height: 8vh;
+                vertical-align: middle;
+            }
+
+            #hero {
+                font-size: 8vh;
+            }
+        }
     </style>
 </head>
 <body>
     <button id="hero" disabled>
-        <span id="accent">C🧠gni</span>fied
+        <span id="accent">C<img src="brain.svg">gni</span>fied
     </button>
     <a href="menu.html"><button>Train Your Brain >></button></a>
 </body>

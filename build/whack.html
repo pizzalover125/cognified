@@ -11,17 +11,26 @@
   <style>
     body {
       text-align: center;
+      color:#FEB326;
     }
 
-    textarea {
-      font-size: 5.5vh;
-      border: none; 
-      resize: none;
-      overflow: hidden;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      grid-template-rows: repeat(10, 1fr);
+      gap: 1px;
+      justify-content: center;
+      align-items: center;
+      width: 50vmin;
+      height: 50vmin;
+      margin: 0 auto;
     }
 
-    textarea:focus {
-      outline: none;
+    .grid div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 3.75vmin;
     }
 
     input {
@@ -78,7 +87,7 @@
   </style>
 </head>
 <body>
-  <textarea id="grid" cols="21" rows="11" readonly></textarea><br>
+  <div id="grid" class="grid"></div><br>
   <label>Row:</label><input type="number" min="1" max="10" id="x">
   <label>Column:</label><input type="number" min="1" max="10" id="y">
   <p id="score">Score: 0</p>
@@ -89,23 +98,19 @@
   let y;
   let score = 0;
 
-  function createEmojiGrid(textAreaId, emojiFrown = "☹️", emojiSmile = "🙂") {
-    const textArea = document.getElementById(textAreaId);
-    let grid = "";
+  function createEmojiGrid(gridId, emojiFrown = "☹️", emojiSmile = "🙂") {
+    const grid = document.getElementById(gridId);
+    grid.innerHTML = "";
     x = Math.floor(Math.random() * 10);
     y = Math.floor(Math.random() * 10);
     console.log(`${x}, ${y}`)
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
-        if (j == x && i == y) {
-          grid += emojiSmile;
-        } else {
-          grid += emojiFrown;
-        }
+        const cell = document.createElement("div");
+        cell.textContent = (j == x && i == y) ? emojiSmile : emojiFrown;
+        grid.appendChild(cell);
       }
-      grid += "\n"; 
     }
-    textArea.value = grid;
   }
 
   createEmojiGrid("grid");
