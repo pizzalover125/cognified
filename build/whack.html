@@ -39,7 +39,7 @@
         font-family: "Poppins", sans-serif;
         background: rgba(0, 0, 0, 0);
         appearance: none;
-        width: 50vh;
+        width: 20vw;
         position: relative;
         border-radius: 3px;
         padding: 9px 12px;
@@ -83,6 +83,7 @@
           color: #FEB326;
           border: 1px solid #FEB326;
           line-height: 26px;
+          margin-top: 8px;
         }
   </style>
 </head>
@@ -90,13 +91,13 @@
   <div id="grid" class="grid"></div><br>
   <label>Row:</label><input type="number" min="1" max="10" id="x">
   <label>Column:</label><input type="number" min="1" max="10" id="y">
-  <p id="score">Score: 0</p>
   <a href="menu.html"><button id="back">Back</button></a>
 </body>
 <script>
   let x;
   let y;
   let score = 0;
+  const audio = new Audio('ding.mp3');
 
   function createEmojiGrid(gridId, emojiFrown = "☹️", emojiSmile = "🙂") {
     const grid = document.getElementById(gridId);
@@ -113,6 +114,17 @@
     }
   }
 
+  function updateLifetimeScore() {
+    let lifetimeScore = localStorage.getItem('attentionLifetimeScore');
+    if (!lifetimeScore) {
+      lifetimeScore = 0;
+    } else {
+      lifetimeScore = parseInt(lifetimeScore);
+    }
+    lifetimeScore += 1;
+    localStorage.setItem('attentionLifetimeScore', lifetimeScore);
+  }
+
   createEmojiGrid("grid");
 
   $("input").keyup(function(){
@@ -121,7 +133,10 @@
         $("#x").val("");
         $("#y").val("");
         score += 1;
-        $("#score").text(`Score: ${score}`)
+        updateLifetimeScore();
+        if (localStorage.getItem('volume') === '1') {
+            audio.play();
+        }
       }
   });
 </script>

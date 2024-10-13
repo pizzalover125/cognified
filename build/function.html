@@ -10,7 +10,7 @@
   <style>
     body { 
         text-align: center; 
-        font-size: 10vh;
+        font-size: 11.5vh;
         font-family: "Poppins", sans-serif;
         font-weight: 900;
         font-style: normal;
@@ -28,7 +28,7 @@
         font-family: "Poppins", sans-serif;
         background: rgba(0, 0, 0, 0);
         appearance: none;
-        width: 50vh;
+        width: 40vw;
         position: relative;
         border-radius: 3px;
         padding: 9px 12px;
@@ -71,16 +71,22 @@
 <body>
   <p id="problem"></p>
   <input type="number" id="answer" autofocus placeholder="Enter your answer">
-  <p id="score">Score: 0</p>
   <a href="menu.html"><button id="back">Back</button></a>
 
   <script>
     let score = 0;
+    const audio = new Audio('ding.mp3');
+
+    if (localStorage.getItem('functionLifetimeScore') === null) {
+        localStorage.setItem('functionLifetimeScore', '0');
+    }
+
     function generateProblem() {
       const num1 = Math.floor(Math.random() * 12) + 1;
       const num2 = Math.floor(Math.random() * 12) + 1;
       $("#problem").text(`${num1} x ${num2} = ?`);
     }
+
     function checkAnswer() {
       const answer = parseInt($("#answer").val());
       const numbers = $("#problem").text().split(" x ");
@@ -89,12 +95,19 @@
       const correctAnswer = num1 * num2;
 
       if (answer === correctAnswer) {
-        score++; 
+        score++;
+        let lifetimeScore = localStorage.getItem("functionLifetimeScore");
+        lifetimeScore = lifetimeScore ? parseInt(lifetimeScore) : 0;
+        lifetimeScore++;
+        localStorage.setItem("functionLifetimeScore", lifetimeScore);
         $("input").val("");
-        generateProblem()
-        $("#score").text(`Score: ${score}`);
-      } 
+        generateProblem();
+        if (localStorage.getItem('volume') === '1') {
+            audio.play();
+        }
+      }
     }
+
     $("#answer").keyup(checkAnswer);
     generateProblem();
   </script>

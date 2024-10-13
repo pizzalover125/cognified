@@ -73,7 +73,7 @@
 
         #rb {
             color: white;
-            font-size: 6vh;
+            font-size: 4vw;
             font-family: "Poppins", sans-serif;
             font-weight: 900;
             font-style: normal;
@@ -120,6 +120,14 @@
 
         const colors = ["R", "B", "G", "O"];
 
+        if (!localStorage.getItem("memoryLifetimeScore")) {
+            localStorage.setItem("memoryLifetimeScore", 0);
+        }
+
+        if (!localStorage.getItem("memoryHighScore")) {
+            localStorage.setItem("memoryHighScore", 0);
+        }
+
         function createPattern() {
             const randomColor = colors[Math.floor(Math.random() * 4)];
             gamePattern.push(randomColor);
@@ -138,28 +146,37 @@
         }
 
         function highlight(color) {
+            
             const audio = new Audio('ding.mp3');
             if (color === "R") {
                 $("#rb").addClass("light");
-                audio.play();
+                if (localStorage.getItem('volume') === '1') {
+                    audio.play();
+                }
                 setTimeout(function () {
                     $("#rb").removeClass("light");
                 }, 500);
             } else if (color === "G") {
                 $("#gb").addClass("light");
-                audio.play();
+                if (localStorage.getItem('volume') === '1') {
+                    audio.play();
+                }
                 setTimeout(function () {
                     $("#gb").removeClass("light");
                 }, 500);
             } else if (color === "O") {
                 $("#ob").addClass("light");
-                audio.play();
+                if (localStorage.getItem('volume') === '1') {
+                    audio.play();
+                }
                 setTimeout(function () {
                     $("#ob").removeClass("light");
                 }, 500);
             } else if (color === "B") {
                 $("#bb").addClass("light");
-                audio.play();
+                if (localStorage.getItem('volume') === '1') {
+                    audio.play();
+                }
                 setTimeout(function () {
                     $("#bb").removeClass("light");
                 }, 500);
@@ -170,6 +187,7 @@
             for (let i = 0; i < userPattern.length; i++) {
                 if (userPattern[i] !== gamePattern[i]) {
                     alert("Wrong pattern! Try again.");
+                    updateHighScore();
                     location.reload();
                 }
             }
@@ -178,6 +196,12 @@
                 score++;
                 $("#score").text("Score: " + score);
                 userPattern = [];
+
+                // Update memoryLifetimeScore in localStorage
+                let memoryLifetimeScore = parseInt(localStorage.getItem("memoryLifetimeScore"));
+                memoryLifetimeScore++;
+                localStorage.setItem("memoryLifetimeScore", memoryLifetimeScore);
+
                 setTimeout(function () {
                     playRound();
                 }, 1000);
@@ -198,6 +222,14 @@
             level++;
             $("#rb").text(`Score: ${score}`);
             playPattern();
+        }
+
+        function updateHighScore() {
+            let highScore = parseInt(localStorage.getItem("memoryHighScore"));
+            if (score > highScore) {
+                localStorage.setItem("memoryHighScore", score);
+                alert(`New High Score: ${score}`);
+            }
         }
 
         $("#rb").on("click", function () {

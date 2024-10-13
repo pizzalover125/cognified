@@ -19,23 +19,15 @@
         }
 
         h1 {
-            font-size: 12vh;
+            font-size: 15vw;
             font-family: "Poppins", sans-serif;
             font-weight: 900;
             font-style: normal;
             text-align: center;
         }
 
-        #word, #score {
+        #word {
             color: #e84d8a;
-        }
-
-        #score {
-            font-size: 5vh;
-            font-family: "Poppins", sans-serif;
-            font-weight: 800;
-            font-style: normal;
-            text-align: center;
         }
         
         input {
@@ -44,7 +36,7 @@
             font-family: "Poppins", sans-serif;
             background: rgba(0, 0, 0, 0);
             appearance: none;
-            width: 50vh;
+            width: 50vw;
             position: relative;
             border-radius: 3px;
             padding: 9px 12px;
@@ -80,6 +72,7 @@
             color: #e84d8a;
             border: 1px solid #e84d8a;
             line-height: 26px;
+            margin-top: 8px;
         }
 
         #center {
@@ -94,12 +87,13 @@
     <h1 id="word"></h1><br><br><br>    
     <input type="text">
     <div id="center">
-        <p id="score">Score: 0</p>
         <button id="skip">Skip</button>
         <a href="menu.html"><button id="back">Back</button></a>
     </div>
 </body>
 <script>
+    const audio = new Audio('ding.mp3');
+
     function jumbleWord(word) {
         const chars = word.split("");
 
@@ -120,12 +114,21 @@
         console.log(real_word)
     }
 
+    if (localStorage.getItem('reasonLifetimeScore') === null) {
+        localStorage.setItem('reasonLifetimeScore', '0');
+    }
+
     $("input").keyup(function(){
-        if ($(this).val() == real_word) {
+        if ($(this).val().toUpperCase() == real_word.toUpperCase()) {
             newWord();
             $(this).val("");
+            if (localStorage.getItem('volume') === '1') {
+                audio.play();
+            }
             score += 1;
-            $("#score").text(`Score: ${score}`);
+            let lifetimeScore = parseInt(localStorage.getItem('reasonLifetimeScore'), 10);
+            lifetimeScore += 1;
+            localStorage.setItem('reasonLifetimeScore', lifetimeScore);
         }
     });
 

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics</title>
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            font-family: "Poppins", sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .square {
+            width: 200px;
+            height: 100px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 5px;
+        }
+
+        h1 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1em;
+        }
+
+        #memory {
+            border-color:#64C5EB;
+        }
+
+        #attention {
+            border-color:#FEB326;
+        }
+
+        #reason {
+            border-color:#e84d8a;
+        }
+
+        #function {
+            border-color:#7f58af;
+        }
+
+        button {
+            display: inline-block;
+            outline: 0;
+            border: 0;
+            cursor: pointer;
+            background-color: white;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #000000;
+            border: 1px solid #000000;
+            line-height: 26px;
+            margin-top: 8px;
+        }
+
+        #center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="memory" class="square">
+        <h1>Memory</h1>
+        <p></p>
+    </div>
+
+    <div id="attention" class="square">
+        <h1>Attention</h1>
+        <p></p>
+    </div>
+
+    <div id="reason" class="square">
+        <h1>Reason</h1>
+        <p></p>
+    </div>
+
+    <div id="function" class="square">
+        <h1>Function</h1>
+        <p></p>
+    </div>
+
+    <div id="center">
+        <a href="menu.html"><button id="back">Back</button></a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let functionLifetimeScore = localStorage.getItem("functionLifetimeScore");
+            let reasonLifetimeScore = localStorage.getItem("reasonLifetimeScore");
+            let attentionLifetimeScore = localStorage.getItem("attentionLifetimeScore");
+            let memoryLifetimeScore = localStorage.getItem("memoryLifetimeScore");
+            let memoryHighScore = localStorage.getItem("memoryHighScore");
+
+            document.querySelector('#function p').textContent = `Lifetime Score: ${functionLifetimeScore || 'No data'}`;
+            document.querySelector('#reason p').textContent = `Lifetime Score: ${reasonLifetimeScore || 'No data'}`;
+            document.querySelector('#attention p').textContent = `Lifetime Score: ${attentionLifetimeScore || 'No data'}`;
+            document.querySelector('#memory p').innerHTML = `Lifetime Score: ${memoryLifetimeScore || 'No data'}<br>High Score: ${memoryHighScore || 'No data'}`;
+        });
+    </script>
+</body>
+</html>
